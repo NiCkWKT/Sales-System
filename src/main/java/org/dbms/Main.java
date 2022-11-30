@@ -2,9 +2,11 @@ package org.dbms;
 
 import java.sql.DriverManager;
 import java.sql.Connection;
+import java.sql.SQLException;
 
-public class Main {
-    public static void main(String[] args) {
+public class Main extends Page {
+    public static Connection conn;
+    public static void main(String[] args) throws SQLException {
         String driverName = "com.mysql.jdbc.Driver";
         String dbAddress = "jdbc:mysql://projgw.cse.cuhk.edu.hk:2633/db10?autoReconnect=true&useSSL=false";
         String userName = "Group10";
@@ -13,15 +15,34 @@ public class Main {
         try {
             Class.forName(driverName);
 
-            Connection con = DriverManager.getConnection(dbAddress, userName, userPwd);
-
-            System.out.printf("Connection success");
+            conn = DriverManager.getConnection(dbAddress, userName, userPwd);
 
         } catch(Exception e) {
             e.printStackTrace();
 
-            System.out.printf("Connection failed!");
+            System.out.println("Connection failed!");
 
+            return;
         }
+
+        boolean running = true;
+        while (running) {
+            printMainMenu();
+            int choice = takeChoiceInput(1, 4);
+            switch (choice) {
+                case 1:
+                    AdministratorPage.start();
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                default:
+                    System.out.println("Bye Bye!");
+                    running = false;
+                    break;
+            }
+        }
+
     }
 }
