@@ -50,7 +50,13 @@ public class Page {
     }
 
     public static void printManagerMenu() {
-        // TODO
+        System.out.println("-----Operations for manager menu-----");
+        System.out.println("What kinds of operation would you like to perform?");
+        System.out.println("1. List all salespersons");
+        System.out.println("2. Count the no. of sales record of each salesperson under a specific range on years of experience");
+        System.out.println("3. Show the total sales value of each manufacturer");
+        System.out.println("4. Show the N most popular part");
+        System.out.println("5. Return to the main menu");
     }
 
     public static void pressEnterToContinue() {
