@@ -6,8 +6,8 @@ import java.sql.Statement;
 import java.util.Scanner;
 
 public class Manager extends Operation {
-    private static final String LIST_SALES_ASC = "SELECT s_id AS ID, s_name AS Name, s_phone_number AS 'Mobile Phone', experience AS 'Years Of Experience' FROM salesperson ORDER BY experience";
-    private static final String LIST_SALES_DESC = "SELECT s_id AS ID, s_name AS Name, s_phone_number AS 'Mobile Phone', experience AS 'Years Of Experience' FROM salesperson ORDER BY experience DESC";
+    private static final String LIST_SALES_ASC = "SELECT * FROM (SELECT s_id AS ID, s_name AS Name, s_phone_number AS 'Mobile Phone', experience AS 'Years Of Experience' FROM salesperson ORDER BY experience) AS sub";
+    private static final String LIST_SALES_DESC = "SELECT * FROM (SELECT s_id AS ID, s_name AS Name, s_phone_number AS 'Mobile Phone', experience AS 'Years Of Experience' FROM salesperson ORDER BY experience DESC) AS sub";
 
     public static void listAllSalesperson(Connection conn) throws SQLException {
         int choice = takeOrderInput();
@@ -23,28 +23,32 @@ public class Manager extends Operation {
     public static void countSalesForEachStaff(Connection conn) throws SQLException {
         String[] bound = takeBoundInput();
         String query =
+                "SELECT * FROM (" +
                 "SELECT s_id AS ID, s_name AS Name, experience AS 'Years Of Experience', COUNT(*) As 'Number Of Transaction' " +
                 "FROM (SELECT * FROM transaction INNER JOIN salesperson " +
                 "ON transaction.salesperson_id = salesperson.s_id " +
                 "WHERE experience >= " + bound[0] + " AND experience <= " + bound[1] + ") AS sub " +
                 "GROUP BY s_id " +
-                "ORDER BY s_id DESC";
+                "ORDER BY s_id DESC) AS s";
         Statement stmt = conn.createStatement();
         display(stmt, query);
+        System.out.println("End of Query");
         stmt.close();
     }
 
     public static void sortAndListManufacturer(Connection conn) throws SQLException {
         Statement stmt = conn.createStatement();
         String query =
+        "SELECT * FROM (" +
         "SELECT m_id AS 'Manufacturer ID', m_name AS 'Manufacturer Name', SUM(price) AS 'Total Sales Value' " +
         "FROM transaction INNER JOIN " +
         "(SELECT p_id, m_id, m_name, price FROM part INNER JOIN manufacturer " +
         "ON part.manufacturer_id = manufacturer.m_id) AS sub " +
         "ON transaction.part_id = sub.p_id " +
         "GROUP BY m_id " +
-        "ORDER BY SUM(price) DESC";
+        "ORDER BY SUM(price) DESC) AS s";
         display(stmt, query);
+        System.out.println("End of Query");
         stmt.close();
     }
 
@@ -52,14 +56,16 @@ public class Manager extends Operation {
         Statement stmt = conn.createStatement();
         String n = takeLimitInput();
         String query =
+            "SELECT * FROM (" +
             "SELECT part_id AS 'Part ID', p_name AS 'Part Name', COUNT(*) AS 'No. of Transaction' " +
             "FROM transaction INNER JOIN part " +
             "ON transaction.part_id = part.p_id " +
             "GROUP BY part_id " +
             "HAVING COUNT(*) != 0 " +
             "ORDER BY COUNT(*) DESC " +
-            "LIMIT " + n;
+            "LIMIT " + n + ") AS s";
         display(stmt, query);
+        System.out.println("End of Query");
         stmt.close();
     }
 
@@ -84,11 +90,11 @@ public class Manager extends Operation {
     private static String[] takeBoundInput() {
         Scanner sc = new Scanner(System.in);
         String[] bound = new String[2];
-        System.out.print("Type in the lower bound for years of experience: ");
-        String low = sc.next();
-        System.out.print("Type in the upper bound for years of experience: ");
-        String up = sc.next();
         while (true) {
+            System.out.print("Type in the lower bound for years of experience: ");
+            String low = sc.next();
+            System.out.print("Type in the upper bound for years of experience: ");
+            String up = sc.next();
             if (!low.matches(".*[a-zA-Z]+.*")
                     && !up.matches(".*[a-zA-Z]+.*")
                     && Integer.parseInt(low) >= 0

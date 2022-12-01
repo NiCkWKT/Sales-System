@@ -2,7 +2,6 @@ package org.dbms;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Scanner;
 
 public class AdministratorPage extends Page {
     public static void start(Connection conn) throws SQLException {
@@ -21,13 +20,11 @@ public class AdministratorPage extends Page {
                     break;
                 case 3:
                     Administrator.loadDataFromFiles(conn);
+                    System.out.println();
                     pressEnterToContinue();
                     break;
                 case 4:
-                    System.out.print("Which table would you like to show: ");
-                    String tableName = takeStringInput();
-                    System.out.println();
-                    Administrator.showContent(conn, tableName);
+                    Administrator.showContent(conn);
                     pressEnterToContinue();
                     break;
                 default:

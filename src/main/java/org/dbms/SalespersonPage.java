@@ -16,6 +16,7 @@ public class SalespersonPage extends Page {
                     break;
                 case 2:
                     Salesperson.sellPart(conn);
+                    System.out.println();
                     pressEnterToContinue();
                     break;
                 default:

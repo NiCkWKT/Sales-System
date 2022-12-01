@@ -6,18 +6,28 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Operation {
-    public static void display(Statement stmt, String query) throws SQLException {
-        ResultSet rs = stmt.executeQuery(query);
-        ResultSetMetaData rsmd = rs.getMetaData();
-        int colNumber = rsmd.getColumnCount();
-        while (rs.next()) {
+    public static void display(Statement stmt, String query) {
+        ResultSet rs;
+        try {
+            rs = stmt.executeQuery(query);
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int colNumber = rsmd.getColumnCount();
             for (int i = 1; i <= colNumber; i++) {
-                if (i > 1)
-                    System.out.print(",  ");
-                String colVal = rs.getString(i);
-                System.out.print(colVal + " " + rsmd.getColumnName(i));
+                System.out.print("| " + rsmd.getColumnName(i) + " ");
             }
-            System.out.println("");
+            System.out.println("|");
+            while (rs.next()) {
+                for (int i = 1; i <= colNumber; i++) {
+                    String colVal = rs.getString(i);
+                    System.out.print("| " + colVal + " ");
+                }
+                System.out.println("|");
+            }
+        } catch (SQLException e) {
+            System.err.println();
+            System.err.println("Error!");
+            System.err.println("Please contact Administrator");
+            System.err.println();
         }
     }
 }
