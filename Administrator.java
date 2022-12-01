@@ -1,5 +1,3 @@
-package org.dbms;
-
 import java.sql.*;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -63,7 +61,8 @@ public class Administrator extends Operation {
     private static final String DELETE_PART = "DROP TABLE IF EXISTS part";
     private static final String DELETE_MANUFACTURER = "DROP TABLE IF EXISTS manufacturer;";
     private static final String DELETE_CATEGORY = "DROP TABLE IF EXISTS category";
-    private static final String LOAD_DATA = "LOAD DATA LOCAL INFILE '/Users/nickng/IdeaProjects/CSCI3170_Sales_System/";
+    private static String currentPath = System.getProperty("user.dir");
+    private static final String LOAD_DATA = "LOAD DATA LOCAL INFILE '" + currentPath + "/";
     private static final String[] createTables = {CREATE_CATEGORY, CREATE_MANUFACTURER, CREATE_PART, CREATE_SALESPERSON, CREATE_TRANSACTION};
     private static final String[] deleteTables = {DELETE_TRANSACTION, DELETE_SALESPERSON, DELETE_PART, DELETE_MANUFACTURER, DELETE_CATEGORY};
     private static final String[] tableNames = {"category", "manufacturer", "part", "salesperson", "transaction"};

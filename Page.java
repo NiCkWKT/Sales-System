@@ -1,5 +1,3 @@
-package org.dbms;
-
 import java.util.Scanner;
 
 public class Page {

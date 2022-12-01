@@ -1,5 +1,3 @@
-package org.dbms;
-
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -21,13 +19,14 @@ public class Salesperson extends Operation {
         String query;
         Statement stmt = conn.createStatement();
         if (criterion == 1) {
-            query = LIST_ALL_PARTS_INFO + " WHERE p_name LIKE '%" + keyword + "%'" + " ORDER BY price " + order + ") AS sub";
+            query = LIST_ALL_PARTS_INFO + " WHERE p_name LIKE '%" + keyword + "%'" + ") AS sub" + " ORDER BY price " + order;
             display(stmt, query);
         }
         else {
-            query = LIST_ALL_PARTS_INFO + " WHERE m_name LIKE '%" + keyword + "%'" + " ORDER BY price " + order + ") AS sub";
+            query = LIST_ALL_PARTS_INFO + " WHERE m_name LIKE '%" + keyword + "%'" + ") AS sub" + " ORDER BY price " + order;
             display(stmt, query);
         }
+        System.out.println("End of Query");
     }
 
     public static void sellPart(Connection conn) throws SQLException {
