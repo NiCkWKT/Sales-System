@@ -10,6 +10,7 @@ public class Page {
             input = sc.next();
 
             if (!input.matches(".*[a-zA-Z]+.*") && Integer.parseInt(input) >= min && Integer.parseInt(input) <= max) {
+                System.out.println();
                 return Integer.parseInt(input);
             }
             else {
@@ -30,7 +31,7 @@ public class Page {
         System.out.println("1. Operations for administrator");
         System.out.println("2. Operations for salesperson");
         System.out.println("3. Operations for manager");
-        System.out.println("4. Exit this program\n");
+        System.out.println("4. Exit this program");
     }
 
     public static void printAdminMenu() {
