@@ -4,8 +4,8 @@ import java.sql.Statement;
 import java.util.Scanner;
 
 public class Manager extends Operation {
-    private static final String LIST_SALES_ASC = "SELECT * FROM (SELECT s_id AS ID, s_name AS Name, s_phone_number AS 'Mobile Phone', experience AS 'Years Of Experience' FROM salesperson ORDER BY experience) AS sub";
-    private static final String LIST_SALES_DESC = "SELECT * FROM (SELECT s_id AS ID, s_name AS Name, s_phone_number AS 'Mobile Phone', experience AS 'Years Of Experience' FROM salesperson ORDER BY experience DESC) AS sub";
+    private static final String LIST_SALES_ASC = "SELECT * FROM (SELECT s_id AS ID, s_name AS Name, s_phone_number AS 'Mobile Phone', experience AS 'Years Of Experience' FROM salesperson) AS sub ORDER BY 4";
+    private static final String LIST_SALES_DESC = "SELECT * FROM (SELECT s_id AS ID, s_name AS Name, s_phone_number AS 'Mobile Phone', experience AS 'Years Of Experience' FROM salesperson) AS sub ORDER BY 4 DESC";
 
     public static void listAllSalesperson(Connection conn) throws SQLException {
         int choice = takeOrderInput();
@@ -26,8 +26,8 @@ public class Manager extends Operation {
                 "FROM (SELECT * FROM transaction INNER JOIN salesperson " +
                 "ON transaction.salesperson_id = salesperson.s_id " +
                 "WHERE experience >= " + bound[0] + " AND experience <= " + bound[1] + ") AS sub " +
-                "GROUP BY s_id " +
-                "ORDER BY s_id DESC) AS s";
+                "GROUP BY s_id" +
+                ") AS s ORDER BY ID DESC";
         Statement stmt = conn.createStatement();
         display(stmt, query);
         System.out.println("End of Query");
@@ -43,8 +43,8 @@ public class Manager extends Operation {
         "(SELECT p_id, m_id, m_name, price FROM part INNER JOIN manufacturer " +
         "ON part.manufacturer_id = manufacturer.m_id) AS sub " +
         "ON transaction.part_id = sub.p_id " +
-        "GROUP BY m_id " +
-        "ORDER BY SUM(price) DESC) AS s";
+        "GROUP BY m_id" +
+        ") AS s ORDER BY 3 DESC";
         display(stmt, query);
         System.out.println("End of Query");
         stmt.close();
@@ -61,7 +61,7 @@ public class Manager extends Operation {
             "GROUP BY part_id " +
             "HAVING COUNT(*) != 0 " +
             "ORDER BY COUNT(*) DESC " +
-            "LIMIT " + n + ") AS s";
+            "LIMIT " + n + ") AS s ORDER BY 3 DESC";
         display(stmt, query);
         System.out.println("End of Query");
         stmt.close();
