@@ -10,7 +10,6 @@ public class Page {
             input = sc.next();
 
             if (!input.matches(".*[a-zA-Z]+.*") && Integer.parseInt(input) >= min && Integer.parseInt(input) <= max) {
-                System.out.println();
                 return Integer.parseInt(input);
             }
             else {

@@ -5,6 +5,7 @@ public class ManagerPage extends Page {
     public static void start(Connection conn) throws SQLException {
         boolean running = true;
         while (running) {
+            System.out.println();
             printManagerMenu();
             int choice = takeChoiceInput(1, 5);
             switch (choice) {

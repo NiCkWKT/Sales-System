@@ -5,6 +5,7 @@ public class SalespersonPage extends Page {
     public static void start(Connection conn) throws SQLException {
         boolean running = true;
         while (running) {
+            System.out.println();
             printSalesMenu();
             int choice = takeChoiceInput(1, 3);
             switch (choice) {
